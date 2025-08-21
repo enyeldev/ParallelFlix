@@ -17,12 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers/" />
-    <Folder Include="Data/" />
-    <Folder Include="Domain/" />
     <Folder Include="Domain/DTOs/" />
-    <Folder Include="Domain/Models/" />
-    <Folder Include="Domain/Parallel/" />
-    <Folder Include="Domain/Services/" />
   </ItemGroup>
 
 </Project>
