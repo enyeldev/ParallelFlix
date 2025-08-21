@@ -24,11 +24,11 @@ public class ContentBasedService : IAlgoritmoRecomendacion
 
 
         var userRatings = await _db.Ratings.Where(r => r.IdUsuario == idUser).ToListAsync(ct);
-        var movieGenres = await _db.MovieGenres.Include(mg => mg.Genre).ToListAsync(ct);
+        var movieGenres = await _db.GenerosPelicula.Include(mg => mg.Genero).ToListAsync(ct);
         var movies = await _db.Movies.AsNoTracking().ToListAsync(ct);
 
         // Mapeos
-        var gIds = movieGenres.Select(mg => mg.GenreId).Distinct().OrderBy(x => x).ToArray();
+        var gIds = movieGenres.Select(mg => mg.IdGenero).Distinct().OrderBy(x => x).ToArray();
         var gIndex = gIds.Select((g, i) => (g, i)).ToDictionary(t => t.g, t => t.i);
         var dim = gIds.Length;
 
@@ -37,9 +37,9 @@ public class ContentBasedService : IAlgoritmoRecomendacion
         foreach (var m in movies)
         {
             var vec = new float[dim];
-            foreach (var mg in movieGenres.Where(x => x.MovieId == m.Id))
+            foreach (var mg in movieGenres.Where(x => x.IdPelicula == m.Id))
             {
-                vec[gIndex[mg.GenreId]] = 1f;
+                vec[gIndex[mg.IdGenero]] = 1f;
             }
             movieVec[m.Id] = vec;
         }

@@ -9,17 +9,17 @@ public class TrendingBoostService
     private readonly AppDbContext _db;
     public TrendingBoostService(AppDbContext db) => _db = db;
 
-    public async Task<IReadOnlyList<Recommendation>> BoostAsync(
-        IReadOnlyList<Recommendation> items, float alpha, CancellationToken ct)
+    public async Task<IReadOnlyList<Recomendacion>> BoostAsync(
+        IReadOnlyList<Recomendacion> items, float alpha, CancellationToken ct)
     {
-        var ids = items.Select(i => i.MovieId).ToArray();
-        var trend = await _db.Trends.Where(t => ids.Contains(t.MovieId)).ToListAsync(ct);
+        var ids = items.Select(i => i.idPelicula).ToArray();
+        var trend = await _db.Trends.Where(t => ids.Contains(t.IdPelicula)).ToListAsync(ct);
 
         var boosted = items.Select(i =>
         {
-            var hot = trend.FirstOrDefault(t => t.MovieId == i.MovieId)?.GlobalHotness ?? 0f;
-            return i with { Score = i.Score + alpha * hot };
-        }).OrderByDescending(x => x.Score).ToList();
+            var hot = trend.FirstOrDefault(t => t.IdPelicula == i.idPelicula)?.GlobalHotness ?? 0f;
+            return i with { score = i.score + alpha * hot };
+        }).OrderByDescending(x => x.score).ToList();
 
         return boosted;
     }

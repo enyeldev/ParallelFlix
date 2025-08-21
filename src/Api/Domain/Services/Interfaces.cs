@@ -1,4 +1,4 @@
-public record Recomendacion(int idMovie, string titulo, float score);
+public record Recomendacion(int idPelicula, string titulo, float score);
 public record RecResultado(string algoritmo, TimeSpan elapsed, IReadOnlyList<Recomendacion> items);
 
 public interface IAlgoritmoRecomendacion
