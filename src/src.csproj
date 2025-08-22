@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Nucelo/" />
+    <Folder Include="Nucleo/" />
     <Folder Include="Recomendadores/" />
     <Folder Include="Servicios/" />
     <Folder Include="Utilidades/" />
