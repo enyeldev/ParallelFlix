@@ -9,7 +9,7 @@ public class Pelicula
     public string Genero { get; init; } = string.Empty;
     public List<string> Etiquetas { get; init; } = new();
     public double Calificacion { get; init; }
-    public string Duracion { get; init; } = string.Empty; // Ej: "2h 18min" o "45min x Episodio"
+    public string Duracion { get; init; } = string.Empty;
     public int Ano { get; init; }
     public string Director { get; init; } = string.Empty;
 }
