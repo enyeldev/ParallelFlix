@@ -11,7 +11,7 @@ public static class Similitud
     public static double JaccardGenero(Pelicula a, Pelicula b)
     {
         if (string.Equals(a.Genero, b.Genero, StringComparison.OrdinalIgnoreCase)) return 1.0;
-        return 0.25; // géneros distintos => afinidad baja
+        return 0.25; // géneros distintos
     }
 
     public static double JaccardEtiquetas(Pelicula a, Pelicula b)

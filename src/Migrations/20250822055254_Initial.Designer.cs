@@ -13,7 +13,7 @@ namespace src.Migrations
     [Migration("20250822055254_Initial")]
     partial class Initial
     {
-        /// <inheritdoc />
+
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

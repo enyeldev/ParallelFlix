@@ -393,7 +393,7 @@ public sealed class InterfazUsuario
     {
         if (string.IsNullOrEmpty(duracion)) return 0;
         
-        // Buscar números en la cadena (ej: "120 min", "2h 30m", "90")
+        // Buscar números en la cadena
         var numerosEncontrados = System.Text.RegularExpressions.Regex.Matches(duracion, @"\d+")
             .Cast<System.Text.RegularExpressions.Match>()
             .Select(m => int.Parse(m.Value))

@@ -34,7 +34,7 @@ public class AppDbContext : DbContext
 
         // Configuración de Recomendacion
         modelo.Entity<Recomendacion>()
-            .HasKey(r => r.Id); // Relación 1 a 1 con Pelicula
+            .HasKey(r => r.Id); 
 
         modelo.Entity<Recomendacion>()
             .HasOne(r => r.Pelicula)
@@ -45,7 +45,7 @@ public class AppDbContext : DbContext
         modelo.Entity<PerfilUsuario>()
             .HasKey(u => u.NombreUsuario);
 
-        // GenerosPreferidos y EtiquetasPreferidas son HashSet -> se convierten a cadena
+        // GenerosPreferidos y EtiquetasPreferidas son HashSet se convierten a cadena
         modelo.Entity<PerfilUsuario>()
             .Property(u => u.GenerosPreferidos)
             .HasConversion(

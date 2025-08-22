@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/Enyel/Documents/College Classes/Programacion Paralela/proyecto-final-paralela/ParallelFlix/src/src.csproj": {}
+    "/Users/rafaelaybar/Desktop/ITLA/PROGRAMACION PARALELA/ParallelFlix/src/src.csproj": {}
   },
   "projects": {
-    "/Users/Enyel/Documents/College Classes/Programacion Paralela/proyecto-final-paralela/ParallelFlix/src/src.csproj": {
+    "/Users/rafaelaybar/Desktop/ITLA/PROGRAMACION PARALELA/ParallelFlix/src/src.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/Enyel/Documents/College Classes/Programacion Paralela/proyecto-final-paralela/ParallelFlix/src/src.csproj",
+        "projectUniqueName": "/Users/rafaelaybar/Desktop/ITLA/PROGRAMACION PARALELA/ParallelFlix/src/src.csproj",
         "projectName": "src",
-        "projectPath": "/Users/Enyel/Documents/College Classes/Programacion Paralela/proyecto-final-paralela/ParallelFlix/src/src.csproj",
-        "packagesPath": "/Users/Enyel/.nuget/packages/",
-        "outputPath": "/Users/Enyel/Documents/College Classes/Programacion Paralela/proyecto-final-paralela/ParallelFlix/src/obj/",
+        "projectPath": "/Users/rafaelaybar/Desktop/ITLA/PROGRAMACION PARALELA/ParallelFlix/src/src.csproj",
+        "packagesPath": "/Users/rafaelaybar/.nuget/packages/",
+        "outputPath": "/Users/rafaelaybar/Desktop/ITLA/PROGRAMACION PARALELA/ParallelFlix/src/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/Enyel/.nuget/NuGet/NuGet.Config"
+          "/Users/rafaelaybar/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -38,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -75,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
