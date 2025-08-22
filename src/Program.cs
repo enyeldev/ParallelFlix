@@ -1,25 +1,26 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using src.Datos;
 using src.Modelos;
 using src.Servicios;
 using src.Servicios.AlgoritmoEspeculativo;
 
-
 var factory = new AppDbContextoFactory();
-using var contexto = factory.CreateDbContext(args);
+await using var contexto = factory.CreateDbContext(args);
 
+await contexto.Database.EnsureCreatedAsync();
 
-contexto.Database.EnsureCreated();
+// 1) Cargar corpus
+var peliculas = await contexto.Peliculas
+    .AsNoTracking()
+    .ToListAsync();
 
-// 1. Obtener películas desde la base de datos
-var peliculas = await contexto.Peliculas.ToListAsync();
-
-// 2. Crear el motor de recomendación con el corpus de películas
-var motor = new MotorRecomendacion(peliculas);
-
-// 3. Crear una sesión de usuario (esto depende de cómo lo manejes tú)
+// 2) Motor y sesión
+var motor  = new MotorRecomendacion(peliculas);
 var sesion = new SesionUsuario("Pedro Navaja");
 
-// 4. Instanciar la interfaz de usuario con todo listo
-InterfazUsuario interfaz = new InterfazUsuario(peliculas, motor, sesion);
+// 3) UI
+var interfaz = new InterfazUsuario(peliculas, motor, sesion);
+
+// *** FALTA ESTO ***
+// Lanza el loop de la interfaz (bloquea hasta salir)
+await interfaz.EjecutarAsync();
