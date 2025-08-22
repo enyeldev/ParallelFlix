@@ -1,7 +1,7 @@
 using Api.Data;
 using Api.Domain.Services;
 using Api.Domain.Servicios.Algoritmos;
-using Api.Doain.Servicios.Paralelismo;
+using Api.Doain.Servicios.Parallelism;
 using Microsoft.EntityFrameworkCore;
 
 var generador = WebApplication.CreateBuilder(args);

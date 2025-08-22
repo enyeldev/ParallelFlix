@@ -1,6 +1,6 @@
 using Api.Data;
 using Api.Domain.DTOs;
-using Api.Domain.Services.Algos;
+using Api.Domain.Services.Algoritmos;
 using Api.Domain.Services.EjecucionEspeculativa;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
