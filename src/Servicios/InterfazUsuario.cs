@@ -21,6 +21,9 @@ public sealed class InterfazUsuario
 
     public async Task EjecutarAsync()
     {
+        await _motor.CompararyMedirRendimientoAsync(_sesion.Perfil, 10);
+        _motor.MetricasRendimiento.FinalizarMetricas(10);
+        
         while (true)
         {
             Console.Clear();
@@ -37,7 +40,7 @@ public sealed class InterfazUsuario
             TemaConsola.Linea();
             Console.Write("⌨  Seleccione #, o teclee M/B/S: ");
             var key = Console.ReadLine()?.Trim();
-            if (string.Equals(key, "S", StringComparison.OrdinalIgnoreCase)) break; // salir
+            if (string.Equals(key, "S", StringComparison.OrdinalIgnoreCase)) break;
             if (string.Equals(key, "M", StringComparison.OrdinalIgnoreCase)) { await MiListaAsync(); continue; }
             if (string.Equals(key, "B", StringComparison.OrdinalIgnoreCase)) { await BuscarAsync(); continue; }
 
@@ -47,7 +50,13 @@ public sealed class InterfazUsuario
             }
         }
 
-        Console.WriteLine("👋 Sesión finalizada. (Los datos de la sesión no se guardan)");
+        Console.Clear();
+        TemaConsola.Titulo("📊 Metricas de Rendimiento del Sistema");
+        TemaConsola.Linea();
+        _motor.MetricasRendimiento.MostrarMetricasParalelismo();
+        Console.WriteLine("👋 Sesion finalizada. (Los datos de la sesion no se guardan)");
+        Console.WriteLine("\nPresione cualquier tecla para continuar...");
+        Console.ReadKey();
     }
 
     private void ImprimirRecomendaciones(List<Recomendacion> recs)

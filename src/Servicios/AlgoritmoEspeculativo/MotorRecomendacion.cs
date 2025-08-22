@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using src.Modelos;
 using src.Recomendadores;
+using src.Servicios;
 using System.Diagnostics;
 
 namespace src.Servicios.AlgoritmoEspeculativo
@@ -12,6 +13,7 @@ namespace src.Servicios.AlgoritmoEspeculativo
     {
         private readonly List<Pelicula> _corpus;
         private readonly List<IRecomendador> _estrategias;
+        public Metricas MetricasRendimiento { get; } = new Metricas();
 
         public MotorRecomendacion(List<Pelicula> corpus)
         {
@@ -60,6 +62,58 @@ namespace src.Servicios.AlgoritmoEspeculativo
                 return (r, estrategia.Nombre);
             }
             finally { sw.Stop(); }
+        }
+
+        public async Task<List<Recomendacion>> CompararyMedirRendimientoAsync(PerfilUsuario usuario, int k)
+        {
+            return await MetricasRendimiento.CompararRendimientoAsync(
+                Environment.ProcessorCount,
+                async () => await EjecutarSecuencialAsync(usuario, k),
+                async () => await EjecutarParaleloAsync(usuario, k)
+            );
+        }
+
+        private async Task<List<Recomendacion>> EjecutarSecuencialAsync(PerfilUsuario usuario, int k)
+        {
+            var resultados = new List<Recomendacion>();
+            foreach (var estrategia in _estrategias)
+            {
+                try
+                {
+                    var recomendaciones = await estrategia.RecomendarAsync(usuario, _corpus, k, CancellationToken.None);
+                    resultados.AddRange(recomendaciones);
+                }
+                catch { }
+            }
+
+            return resultados.GroupBy(r => r.Pelicula.Id)
+                            .Select(g => new Recomendacion{ Pelicula = g.First().Pelicula, Puntuacion = g.Max(x=>x.Puntuacion) })
+                            .OrderByDescending(r => r.Puntuacion)
+                            .Take(k)
+                            .ToList();
+        }
+
+        private async Task<List<Recomendacion>> EjecutarParaleloAsync(PerfilUsuario usuario, int k)
+        {
+            var tareas = _estrategias.Select(s => Task.Run(async () => {
+                try
+                {
+                    return await s.RecomendarAsync(usuario, _corpus, k, CancellationToken.None);
+                }
+                catch
+                {
+                    return new List<Recomendacion>();
+                }
+            }));
+
+            var resultadosArray = await Task.WhenAll(tareas);
+            var combinados = resultadosArray.SelectMany(x => x).ToList();
+
+            return combinados.GroupBy(r => r.Pelicula.Id)
+                            .Select(g => new Recomendacion{ Pelicula = g.First().Pelicula, Puntuacion = g.Max(x=>x.Puntuacion) })
+                            .OrderByDescending(r => r.Puntuacion)
+                            .Take(k)
+                            .ToList();
         }
     }
 }
