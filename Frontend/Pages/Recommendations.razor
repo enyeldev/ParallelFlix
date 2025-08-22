@@ -1,0 +1,61 @@
+@page "/recs"
+@inject IHttpClientFactory FabricasHttp
+
+<h3 class="text-2xl font-bold mb-4">Recomendaciones</h3>
+
+<div class="space-y-2">
+  <label>Usuario (ID): <input @bind="usuarioId" type="number" class="border p-1" /></label>
+  <label>Top K: <input @bind="k" type="number" class="border p-1" /></label>
+  <label>SLA (ms): <input @bind="sla" type="number" class="border p-1" /></label>
+  <label>Modo:
+    <select @bind="modo" class="border p-1">
+      <option value="especulativo">especulativo</option>
+      <option value="colaborativo">colaborativo</option>
+      <option value="contenido">contenido</option>
+    </select>
+  </label>
+  <button @onclick="Cargar" class="border rounded px-3 py-1">Recomendar</button>
+</div>
+
+@if (cargando) { <p>Cargando...</p> }
+@if (error is not null) { <p style="color:red">@error</p> }
+
+@if (items?.Any() == true) {
+  <table class="mt-4 border">
+    <thead><tr><th>PeliculaId</th><th>Título</th><th>Puntuación</th><th>Algoritmo</th><th>Duración (ms)</th></tr></thead>
+    <tbody>
+      @foreach (var r in items) {
+        <tr>
+          <td>@r.PeliculaId</td>
+          <td>@r.Titulo</td>
+          <td>@r.Puntuacion.ToString("0.000")</td>
+          <td>@r.AlgoritmoFuente</td>
+          <td>@r.Milisegundos</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+@code {
+    int usuarioId = 1;
+    int k = 20;
+    int sla = 150;
+    string modo = "especulativo";
+    bool cargando = false;
+    string? error;
+    List<RecDto>? items;
+
+    record RecDto(int PeliculaId, string Titulo, float Puntuacion, string AlgoritmoFuente, long Milisegundos);
+
+    async Task Cargar() {
+        cargando = true; error = null; items = null;
+        try {
+            var cliente = FabricasHttp.CreateClient("api");
+            var url = $"api/recomendaciones/{usuarioId}?k={k}&modo={modo}&slaMs={sla}";
+            var res = await cliente.GetFromJsonAsync<List<RecDto>>(url);
+            items = res ?? new();
+        } catch (Exception ex) { error = ex.Message; }
+        cargando = false;
+    }
+}
