@@ -1,21 +1,25 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using src.Datos;
+using src.Modelos;
+using src.Servicios;
+using src.Servicios.AlgoritmoEspeculativo;
 
 
-// Crear el factory (usa el que implementamos para migraciones y también en runtime)
 var factory = new AppDbContextoFactory();
 using var contexto = factory.CreateDbContext(args);
 
-// Asegura que la base de datos y tablas existen
+
 contexto.Database.EnsureCreated();
 
-// var opciones = new DbContextOptionsBuilder<AppDbContext>()
-//     .UseSqlite("Data Source=db.db")
-//     .Options;
+// 1. Obtener películas desde la base de datos
+var peliculas = await contexto.Peliculas.ToListAsync();
 
+// 2. Crear el motor de recomendación con el corpus de películas
+var motor = new MotorRecomendacion(peliculas);
 
-// using var contexto = new AppDbContext(opciones);
+// 3. Crear una sesión de usuario (esto depende de cómo lo manejes tú)
+var sesion = new SesionUsuario("Pedro Navaja");
 
-
-// contexto.Database.EnsureCreated();
+// 4. Instanciar la interfaz de usuario con todo listo
+InterfazUsuario interfaz = new InterfazUsuario(peliculas, motor, sesion);
