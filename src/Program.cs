@@ -1,21 +1,26 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using src.Datos;
+using src.Modelos;
+using src.Servicios;
+using src.Servicios.AlgoritmoEspeculativo;
 
-
-// Crear el factory (usa el que implementamos para migraciones y también en runtime)
 var factory = new AppDbContextoFactory();
-using var contexto = factory.CreateDbContext(args);
+await using var contexto = factory.CreateDbContext(args);
 
-// Asegura que la base de datos y tablas existen
-contexto.Database.EnsureCreated();
+await contexto.Database.EnsureCreatedAsync();
 
-// var opciones = new DbContextOptionsBuilder<AppDbContext>()
-//     .UseSqlite("Data Source=db.db")
-//     .Options;
+// 1) Cargar corpus
+var peliculas = await contexto.Peliculas
+    .AsNoTracking()
+    .ToListAsync();
 
+// 2) Motor y sesión
+var motor  = new MotorRecomendacion(peliculas);
+var sesion = new SesionUsuario("Pedro Navaja");
 
-// using var contexto = new AppDbContext(opciones);
+// 3) UI
+var interfaz = new InterfazUsuario(peliculas, motor, sesion);
 
-
-// contexto.Database.EnsureCreated();
+// *** FALTA ESTO ***
+// Lanza el loop de la interfaz (bloquea hasta salir)
+await interfaz.EjecutarAsync();

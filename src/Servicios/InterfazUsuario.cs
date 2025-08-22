@@ -1,6 +1,7 @@
 using src.Modelos;
 using src.Utilidades;
 using src.Servicios;
+using src.Servicios.AlgoritmoEspeculativo;
 
 namespace src.Servicios;
 
@@ -57,10 +58,7 @@ public sealed class InterfazUsuario
         for (int i=0;i<recs.Count;i++)
         {
             var r = recs[i];
-            Console.WriteLine($"[{i+1}]  [███▌] {r.Pelicula.Titulo}   🎭 Género: {r.Pelicula.Genero}
-     Etiquetas: {string.Join(", ", r.Pelicula.Etiquetas)}
-     ⭐ {r.Pelicula.Calificacion:F1} | ⏱ {r.Pelicula.Duracion}
-");
+            Console.WriteLine($"[{i+1}]  [███▌] {r.Pelicula.Titulo}   🎭 Género: {r.Pelicula.Genero} Etiquetas: {string.Join(", ", r.Pelicula.Etiquetas)} ⭐ {r.Pelicula.Calificacion:F1} | ⏱ {r.Pelicula.Duracion} ");
         }
         TemaConsola.Linea();
         Console.WriteLine("Filtrar por:  [1] Género   [2] Etiquetas   [3] Duración   [4] Más Vistos");
@@ -129,8 +127,7 @@ public sealed class InterfazUsuario
 
             for(int i=0;i<lista.Count;i++)
                 Console.WriteLine($"[{i+1}] {lista[i].Titulo}  🎭 {lista[i].Genero}  ⭐ {lista[i].Calificacion:F1}");
-            Console.WriteLine("
-[D] Eliminar por #   [V] Ver detalles   [R] Regresar");
+            Console.WriteLine("[D] Eliminar por #   [V] Ver detalles   [R] Regresar");
             Console.Write("Opción: ");
             var op = (Console.ReadLine() ?? string.Empty).Trim().ToUpperInvariant();
             if (op == "R") return;
@@ -171,8 +168,7 @@ public sealed class InterfazUsuario
 
     private async Task MostrarSelectorAsync(List<Pelicula> items)
     {
-        if (items.Count == 0) { Console.WriteLine("
-Sin resultados. ENTER para continuar..."); Console.ReadLine(); return; }
+        if (items.Count == 0) { Console.WriteLine("Sin resultados. ENTER para continuar..."); Console.ReadLine(); return; }
         TemaConsola.Linea();
         for (int i=0;i<items.Count;i++) Console.WriteLine($"[{i+1}] {items[i].Titulo}  🎭 {items[i].Genero}  ⭐ {items[i].Calificacion:F1}");
         TemaConsola.Linea();
