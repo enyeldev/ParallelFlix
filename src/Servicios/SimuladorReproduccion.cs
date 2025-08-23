@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 namespace src.Servicios
 {
 
-
-
     public static class SimuladorReproduccion
     {
         public static void ReproducirPorDiezSegundos(string titulo)

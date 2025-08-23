@@ -9,7 +9,7 @@ await using var contexto = factory.CreateDbContext(args);
 
 await contexto.Database.EnsureCreatedAsync();
 
-// 1) Cargar corpus
+// 1) Cargar peliculas
 var peliculas = await contexto.Peliculas
     .AsNoTracking()
     .ToListAsync();

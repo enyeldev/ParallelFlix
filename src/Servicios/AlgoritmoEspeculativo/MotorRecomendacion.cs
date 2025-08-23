@@ -21,7 +21,7 @@ namespace src.Servicios.AlgoritmoEspeculativo
             _estrategias = new(){ new RecomendadorContenido(), new RecomendadorColaborativo(), new RecomendadorTendencias() };
         }
 
-        // Descomposición especulativa: lanzar todas las estrategias y tomar la que responde primero, con fusión sencilla.
+        // Descomposición especulativa lanzar todas las estrategias y tomar la que responde primero, con fusión sencilla.
         public async Task<(List<Recomendacion> resultados, Dictionary<string,TimeSpan> tiempos)> RecomendarEspeculativoAsync(PerfilUsuario usuario, int k)
         {
             using var cts = new CancellationTokenSource();
@@ -29,12 +29,12 @@ namespace src.Servicios.AlgoritmoEspeculativo
             var tareas = _estrategias.Select(s => EjecutarMedido(s, usuario, k, cts.Token, mapaSw)).ToList();
 
             var primero = await Task.WhenAny(tareas);
-            // Cancelamos los que tarden demasiado (especulativo)
+            // Cancelamos los que tarden demasiado 
             cts.Cancel();
 
             var resultadoPrimero = await primero;
 
-            // Recolectar parciales completadas y fusionar top-k (mejor esfuerzo)
+            // Recolectar parciales completadas y fusionar top-k 
             var combinados = new List<Recomendacion>(resultadoPrimero.resultados);
             foreach (var t in tareas)
             {
