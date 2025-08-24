@@ -47,7 +47,7 @@ El motor de recomendación implementa un enfoque especulativo:
 
 1. **Clonar el repositorio**:
    ```bash
-   git clone <url-del-repositorio>
+   git clone [<url-del-repositorio>](https://github.com/enyeldev/ParallelFlix/)
    cd parallelflix
    ```
 
